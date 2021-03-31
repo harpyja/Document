@@ -4,6 +4,7 @@
   bootstrap classloader
   external classloader
   application classloader
+  双亲委派实际上就是 如果调用子类继承的父类static参数 不会初始化子类
 2. 公平锁 就是 高相应比优先的锁  谁等的时间长 执行时间短 谁优先 不至于产生饥饿现象
 3. 可重入锁 sychronize or Lock 不至于循环调用产生死锁 但是sychronize如果是多线程情况下会产生b穷等，Lock可以解决这个问题
 4. volital 关键字的目的就是原子更新数据，避免脏读现象发生。 再就是代码不重排序 也是解决多线程的赋值问题。 
@@ -15,4 +16,10 @@
 8. webview漏洞攻击： 构造intent调取其他app的webview并加载html 由于文件协议 这个html
 9. hashmap初始化数组大小是16， 底层数据结构是数组+链表， 为啥hashmap的查找是o1，是因为数组指针 直接用下标访问数组之后访问
 10. 有序数组合并的时间复杂度是om+n 空间复杂度是o1
-11. hashtable
+11. hashtable是线程安全的 全局锁 sychornize
+12. 自旋锁：while穷等，互斥锁：单一线程 读写锁：多读，写只能有一个
+13. 公平锁非公平锁：公平锁会在线程刚进来的时候先判断是否有等待
+14. 不用重启的xposed： 不把xposed加载到zygote进程中，而是在XposedBridge里判断 fork出来的进程是目标进程再进行加载
+15. 工厂模式，观察者模式，代理模式
+    工厂模式：适合不经常修改的业务： 接口 继承之后 有需求就得增加。使用抽象工厂模式替代 abstract class 可以不完全实现
+16. 
