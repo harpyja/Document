@@ -30,7 +30,7 @@
 20. android5 以后aygote就是两个进程了 一个是32位的 一个是64位的
 21. xposed其实就是 dalvik中反射method变量 获取directmethod/nativemethod 找到目标函数 修改为native函数 这个函数就会先调before处理 之后hook 的函数 之后是after
     是在过程中dalvik
-22. application启动过程
+22. application启动过程 ui线程先向ams请求bindapplication 在这期间是用的binder binder需要经过 servicemanager获取ams的binder信息和对象 之后再进行访问ams的attachapplication 之后就告诉app说application准备好了，用handler loop到主线程中让主线程准备instrumentation 之后通过类加载传参new Application 之后调oncreate就行了 其实开activity就是把activity类名给ams之后调oncreate
 23. 平衡二叉查找树的时间复杂度是ologn， 快排的时间复杂度是不固定的 ologn-on
 24. c++ 中 >>相当于除以2取整
 25. 
