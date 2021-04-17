@@ -1,0 +1,29 @@
+
+截屏常见的方案
+在介绍vysor的原理前我先简单介绍一下目前公开的截屏方案。
+
+View.getDrawingCache()
+这是最常见的应用内截屏方法，这个函数的原理就是通过view的Cache来获取一个bitmap对象，然后保存成图片文件，这种截屏方式非常的简单，但是局限行也很明显，首先它只能截取应用内部的界面，甚至连状态栏都不能截取到。其次是对某些view的兼容性也不好，比如webview内的内容也无法截取。
+
+读取/dev/graphics/fb0
+因为Android是基于linux内核，所以我们也能在android中找到framebuffer这个设备，我们可以通过读取/dev/graphics/fb0这个帧缓存文件中的数据来获取屏幕上的内容，但是这个文件是system权限的，所以只有通过root才能读取到其中的内容，并且直接通过framebuffer读取出来的画面还需要转换成rgb才能正常显示。下面是通过adb读取这个文件内容的效果。
+
+
+
+反射调用SurfaceControl.screenshot()/Surface.screenshot()
+SurfaceControl.screenshot()(低版本是Surface.screenshot())是系统内部提供的截屏函数，但是这个函数是@hide的，所以无法直接调用，需要反射调用。我尝试反射调用这个函数，但是函数返回的是null，后面发现SurfaceControl这个类也是隐藏的，所以从用户代码中无法获取这个类。也有一些方法能够调用到这个函数，比如重新编译一套sdk，或者在源码环境下编译apk，但是这种方案兼容性太差，只能在特定ROM下成功运行。
+
+screencap -p xxx.png/screenshot xxx.png
+这两个是在shell下调用的命令，通过adb shell可以直接截图，但是在代码里调用则需要系统权限，所以无法调用。可以看到要实现类似vysor的同步操作，可以使用这两个命令来截取屏幕然后传到电脑显示，但是我自己实现后发现这种方式非常的卡，因为这两个命令不能压缩图片，所以导致获取和生成图片的时间非常长。
+
+MediaProjection,VirtualDisplay (>=5.0)
+在5.0以后，google开放了截屏的接口，可以通过”虚拟屏幕”来录制和截取屏幕，不过因为这种方式会弹出确认对话框，并且只在5.0上有效，所以我没有对这种方案做深入的研究。
+
+可以看到，上述方案中并没有解决方案能够做到兼容性和效率都非常完美，但是我在接触到vysor后发现它不但画面清晰，流畅，而且不需要root。那么它是用了什么黑科技呢？下面我们反编译它的代码来研究一下它的实现机制。
+
+
+vysor实现方式：
+
+可以看到上面的代码是调用了adb shell命令来启动com.koushikdutta.vysor.Main类，并且上面获取了app_process这个程序。相信对android熟悉读者已经明白它的原理了。我简单解释一下。我们已经知道Surface/SurfaceControl这两个类是需要具有相应权限的程序才能调用到，用户进程无法获取到。adb shell可以调用screencap或者screenshot来截取屏幕，那就说明adb shell具有截屏的权限。Surface/SurfaceControl和screenshot/screencap它们内部的实现机制应该是相同的，所以也就是说adb shell是具有截屏权限的也就是能够调用到Surface/SurfaceControl。那么我们怎么通过adb shell来调用到这两个类呢，答案就是app_process。app_process可以直接运行一个普通的java类，详细的资料大家可以在网上找到。也就是说我们通过adb shell运行app_process，然后通过app_process来运行一个java类，在java类中就可以访问到Surface/SurfaceControl这两个类，是不是很巧妙？
+
+https://blog.csdn.net/f2006116/article/details/53928602
