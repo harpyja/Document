@@ -1,1 +1,2 @@
-1. npm -g依旧会出现权限不足的情况 需要使用 --unsafe-perm参数 在root全县辖进行配置
+1. npm -g依旧会出现权限不足的情况 需要使用 --unsafe-perm参数 在root权限下进行配置
+2. windows的linux子系统安装node会出现问题
