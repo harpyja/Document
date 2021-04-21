@@ -1,2 +1,8 @@
 1. npm -g依旧会出现权限不足的情况 需要使用 --unsafe-perm参数 在root权限下进行配置
 2. windows的linux子系统安装node会出现问题
+3. qemu2 以上版本emulator启动需要使用-ranchu
+
+4. make AOSP 时报错：
+prebuilts/clang/host/linux-x86/clang-3289846/bin/clang.real: error while loading shared libraries: libncurses.so.5: cannot open shared object file: No such file or directory
+解决办法：
+sudo apt-get install libncurses5
