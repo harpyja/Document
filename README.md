@@ -1,5 +1,5 @@
 # Document
-学到的技术
+## 学到的技术/复习
 1. Java类加载机制： 双亲委派模型 通过代理 将需要加载的类从顶层classloader开始查找并加载 后续的classloader是无法覆盖已经加载的类的
   bootstrap classloader
   external classloader
@@ -33,4 +33,19 @@
 22. application启动过程 ui线程先向ams请求bindapplication 在这期间是用的binder binder需要经过 servicemanager获取ams的binder信息和对象 之后再进行访问ams的attachapplication 之后就告诉app说application准备好了，用handler loop到主线程中让主线程准备instrumentation 之后通过类加载传参new Application 之后调oncreate就行了 其实开activity就是把activity类名给ams之后调oncreate
 23. 平衡二叉查找树的时间复杂度是ologn， 快排的时间复杂度是不固定的 ologn-on
 24. c++ 中 >>相当于除以2取整
-25. 
+
+## 深度学习 
+
+1. IOU就是（检测框与真实框的交集除以并集）
+2. 这个IOU的评价指标是有个阈值的（threshold）进而引入评价体系TP，FP，TN，FN
+    1. TP: True Positive 即IOU > threshold 检测框与真实框的交集大于阈值
+    2. FP: False Positive 即IOU < threshold 检测框与真实框交集小于阈值
+    3. TN: True Nagative 即IOU = 0 有真实框没有检测框
+    4. FN：False Nagative 没有检测框 有真实框 (计算的时候算的是所有的真实框)
+3. AP就是平均精度（Average Precision）
+    1. Precision = TP/(TP+FP)
+    2. Recall = TP(TP+FN)
+    3. AP的原始定义是p(r)函数(横坐标为recall，纵坐标为precision)在0到1上的积分
+    4. https://blog.csdn.net/beizhengren/article/details/120980881
+    5. NMS(非极大值抑制) 就是在选取bounding box的时候选择IOU最大的 其余的一律不算即直接将IOU置0
+
