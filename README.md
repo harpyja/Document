@@ -33,6 +33,12 @@
 22. application启动过程 ui线程先向ams请求bindapplication 在这期间是用的binder binder需要经过 servicemanager获取ams的binder信息和对象 之后再进行访问ams的attachapplication 之后就告诉app说application准备好了，用handler loop到主线程中让主线程准备instrumentation 之后通过类加载传参new Application 之后调oncreate就行了 其实开activity就是把activity类名给ams之后调oncreate
 23. 平衡二叉查找树的时间复杂度是ologn， 快排的时间复杂度是不固定的 ologn-on
 24. c++ 中 >>相当于除以2取整
+25. b 跳转
+bl 带返回跳转
+blx 带返回状态切换跳转
+bx 状态切换跳转
+bxxx实现的是短跳转 32m内存的
+lr寄存器的值直接给pc 实现长跳转 4g内存中随便跳转
 
 ## 深度学习 
 
