@@ -56,3 +56,10 @@ lr寄存器的值直接给pc 实现长跳转 4g内存中随便跳转
     4. https://blog.csdn.net/beizhengren/article/details/120980881
     5. NMS(非极大值抑制) 就是在选取bounding box的时候选择IOU最大的 其余的一律不算即直接将IOU置0
 
+## c++相关面试
+1. 虚函数
+2. stl
+3. 智能指针
+4. 模版类
+5. 多态
+6. 
