@@ -40,6 +40,7 @@ blx 带返回状态切换跳转
 bx 状态切换跳转
 bxxx实现的是短跳转 32m内存的
 lr寄存器的值直接给pc 实现长跳转 4g内存中随便跳转
+26. arrayMap为按键值大小进行排序的map，而lmk（low memory killer）用的就是这个map进行kill的 所以进程的排序会对其杀进程顺序有影响
 
 ## 深度学习 
 
